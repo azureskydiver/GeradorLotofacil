@@ -219,7 +219,7 @@ namespace Inicio
         //private void resultUltimat()// salva lista de numeros do sorteio (Resultado)
         //{
         //    // salva ultimo sorteio no arquivo texto na primeira linha e vai acrescentando linhas
-        //    const string nomeArquivo = @"C:\BoaSorte\Resultados\ResultadosConcurso.txt";
+        //    const string nomeArquivo = Path.Combin(Program.ResultadosDir, "ResultadosConcurso.txt");
         //    List<string> linhas = File.ReadLines(nomeArquivo).ToList(); // Passo 1
 
         //    if (linhas.IndexOf(txtConcurso.Text + "," + ResultadoLabel[0].Text + "," + ResultadoLabel[1].Text + "," + ResultadoLabel[2].Text + "," + ResultadoLabel[3].Text + "," + ResultadoLabel[4].Text

@@ -166,7 +166,7 @@ namespace Inicio
             resultado.numero = Convert.ToInt32(txtConcurso.Text);
             var lastSorteio = new List<string>();
             var siteLotofacil = @"https://servicebus2.caixa.gov.br/portaldeloterias/api/lotofacil";
-            var file = Path.Combine(@"c:\BoaSorte\Concursos", $"{resultado.numero}.txt"); // aqui ele salva com o numero do sorteio        
+            var file = Path.Combine(Program.ConcursosDir, $"{resultado.numero}.txt"); // aqui ele salva com o numero do sorteio        
 
             var requisition = (HttpWebRequest)WebRequest.Create(siteLotofacil);
             requisition.MaximumAutomaticRedirections = 1;
@@ -186,7 +186,7 @@ namespace Inicio
             var resposta = (HttpWebResponse)requisicao.GetResponse();
             using (var responseStream = resposta.GetResponseStream())
             {
-                using (var fileStream = new FileStream(Path.Combine(diretorio + "C:\\BoaSorte\\resultadoAtual.txt"), FileMode.Create))
+                using (var fileStream = new FileStream(Path.Combine(Program.BoaSorteDir, "resultadoAtual.txt"), FileMode.Create))
                 {
                     responseStream.CopyTo(fileStream);
                 }
@@ -195,7 +195,7 @@ namespace Inicio
         //private void SalvaResultList()// salva lista de numeros do sorteio (Resultado)
         //{
         //    // salva ultimo sorteio no arquivo texto na primeira linha e vai acrescentando linhas
-        //    const string nomeArquivo = @"C:\BoaSorte\Resultados\ResultadosConcurso.txt";
+        //    const string nomeArquivo = Path.Combine(Program.ResultadosDir, "ResultadosConcurso.txt");
         //    List<string> linhas = File.ReadLines(nomeArquivo).ToList(); // Passo 1
 
         //    if (linhas.IndexOf(txtConcurso.Text + "," + ResultadoAtual[0].Text + "," + ResultadoAtual[1].Text + "," + ResultadoAtual[2].Text + "," + ResultadoAtual[3].Text + "," + ResultadoAtual[4].Text

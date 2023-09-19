@@ -40,7 +40,7 @@ namespace Inicio
         }
         public static void LerNumero()
         {
-            string arquivo = @"C:\BoaSorte\resultadoAtual.txt";
+            string arquivo = Path.Combine(Program.BoaSorteDir, "resultadoAtual.txt");
 
             if (File.Exists(arquivo))
             {
@@ -80,7 +80,7 @@ namespace Inicio
         }
         private void ReadFile()
         {
-            var file = new StreamReader(@"C:\BoaSorte\resultadoAtual.txt", Encoding.UTF8);
+            var file = new StreamReader(Path.Combine(Program.BoaSorteDir, "resultadoAtual.txt"), Encoding.UTF8);
             string line;
 
             while ((line = file.ReadLine()) != null)
@@ -92,15 +92,15 @@ namespace Inicio
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             contestlist.Items.Clear();
-            //contestlist.Items.AddRange(new DirectoryInfo(@"c:\BoaSorte").EnumerateFiles($"{txtSearch.Text}.txt").Select(f => f.Name).ToArray());           
-            //contestlist.Items.AddRange(new DirectoryInfo(@"c:\BoaSorte\Resultados").EnumerateFileSystemInfos($"*{txtSearch.Text}*.txt").Select(f => File.ReadAllText(f.FullName)).ToArray());
+            //contestlist.Items.AddRange(new DirectoryInfo(Program.BoaSorteDir).EnumerateFiles($"{txtSearch.Text}.txt").Select(f => f.Name).ToArray());           
+            //contestlist.Items.AddRange(new DirectoryInfo(Program.ResultadosDir).EnumerateFileSystemInfos($"*{txtSearch.Text}*.txt").Select(f => File.ReadAllText(f.FullName)).ToArray());
             //populateList();
-            FileInfo file = new FileInfo(@"c:\BoaSorte\DetalhesDoSorteio\" + txtSearch.Text + ".txt");
+            FileInfo file = new FileInfo(Path.Combine(Program.DetalhesDoSorteioDir, txtSearch.Text + ".txt"));
             if (txtSearch.Text != "")
             {
                 if (file.Exists)
                 {
-                    contestlist.Items.AddRange(new DirectoryInfo(@"c:\BoaSorte\DetalhesDoSorteio").EnumerateFiles($"{txtSearch.Text}.txt").SelectMany(f => File.ReadAllLines(f.FullName)).ToArray());
+                    contestlist.Items.AddRange(new DirectoryInfo(Program.DetalhesDoSorteioDir).EnumerateFiles($"{txtSearch.Text}.txt").SelectMany(f => File.ReadAllLines(f.FullName)).ToArray());
                     lblConcurso.Text = $"{txtSearch.Text}".ToString();
                 }
                 else

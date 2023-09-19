@@ -753,7 +753,7 @@ namespace Inicio
                 {
                     for (int i = 0; i < dgResultado.RowCount; i++)
                     {
-                        const string nomeArquivo = @"\BoaSorte\Aposta.txt";
+                        string nomeArquivo = Path.Combine(Program.BoaSorteDir, "Aposta.txt");
                         List<string> linhas = File.ReadLines(nomeArquivo).ToList(); // Passo 1
 
                         if (linhas.IndexOf(
@@ -799,7 +799,7 @@ namespace Inicio
                 }
                 else
                 {
-                    string file = @"C:\BoaSorte\Aposta.txt";
+                    string file = Path.Combine(Program.BoaSorteDir, "Aposta.txt");
                     using (TextWriter tw = new StreamWriter(file))
                     {
                         int i, j = 0;

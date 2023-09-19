@@ -72,7 +72,7 @@ namespace Inicio
                     int valor = Convert.ToInt32(listaDezenass.listaDezenas[i]);
                     controles[i].Text = valor.ToString("D2");
                 }
-                string[] lines = File.ReadAllLines(@"C:\BoaSorte\Aposta.txt");
+                string[] lines = File.ReadAllLines(Path.Combine(Program.BoaSorteDir, "Aposta.txt"));
                 string[] line, contents;
                 int count;
                 //result = UltimoResultado[i].Text.Split(); //if I change the UltimoRsultado by a TextBox.Text and type the result it works just fine
