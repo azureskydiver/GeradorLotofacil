@@ -48,13 +48,13 @@ namespace Controle
         {
             try
             {
-                using (var cmd = DbConnection().CreateCommand())
+                using (var conn = DbConnection())
+                using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = "CREATE TABLE IF NOT EXISTS TBResultado(Concurso Varchar(5),_01 Varchar(2),_02 Varchar(2),_03 Varchar(2),_04 Varchar(2),_05 Varchar(2), _06 Varchar(2)," +
                         "_07 Varchar(2),_08 Varchar(2),_09 Varchar(2),_10 Varchar(2),_11 Varchar(2), _12 Varchar(2),_13 Varchar(2),_14 Varchar(2), _15 Varchar(2))";
                     
                     cmd.ExecuteNonQuery();
-                    DbConnection().Close();
                 }
             }
             catch (Exception ex)
@@ -69,10 +69,9 @@ namespace Controle
             DataTable dt = new DataTable();
             try
             {
-                using (var cmd = DbConnection().CreateCommand())
+                using (var conn = DbConnection())
                 {
-                    cmd.CommandText = "SELECT * FROM TBResultado ORDER BY Concurso DESC";
-                    da = new SQLiteDataAdapter(cmd.CommandText, DbConnection());
+                    da = new SQLiteDataAdapter("SELECT * FROM TBResultado ORDER BY Concurso DESC", conn);
                     da.Fill(dt);
                     return dt;
                 }
@@ -132,26 +131,26 @@ namespace Controle
             DataTable Tabela;
             SQLiteCommand cmd = new SQLiteCommand();
             
-            using (cmd = DbConnection().CreateCommand())
+            using (var conn = DbConnection())
+            using (cmd = conn.CreateCommand())
             {
                 Tabela = new DataTable("TBResultado");
                 cmd.CommandText = "select * from TBResultado where concurso = @Concurso";
                 cmd.Parameters.AddWithValue("@Concurso", concurso);
-                SQLiteDataReader dr;
-
-                try
+                using (var dr = cmd.ExecuteReader())
                 {
-                    dr = cmd.ExecuteReader();
-                    DbConnection().Close();
-                    if (dr.HasRows)
+                    try
                     {
-                        ConcursoEncontrado = true;
+                        if (dr.HasRows)
+                        {
+                            ConcursoEncontrado = true;
+                        }
                     }
-                }
-                catch (Exception)
-                {
-                    ConcursoEncontrado = false;
+                    catch (Exception)
+                    {
+                        ConcursoEncontrado = false;
 
+                    }
                 }
                 return ConcursoEncontrado;
             }
@@ -212,7 +211,8 @@ namespace Controle
         {
             string Saida = "";
             //SQLiteCommand cmd = new SQLiteCommand();
-            using (var cmd = DbConnection().CreateCommand())
+            using (var conn = DbConnection())
+            using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandText = "UPDATE TBResultado SET _01=@_01,_02=@_02,_03=@_03,_04=@_04,_05=@_05,_06=@_06," +
                     " _07=@_07,_08=@_08,_09=@_09,_10=@_10,_11=@_11,_12=@_12,_13=@_13,_14=@_14,_15=@_15 WHERE Concurso = @Concurso";
@@ -251,7 +251,8 @@ namespace Controle
         {
             string Saida = "";
             //SQLiteCommand cmd = new SQLiteCommand();
-            using (var cmd = DbConnection().CreateCommand())
+            using (var conn = DbConnection())
+            using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandText = "DELETE FROM TBResultado Where Concurso=@Concurso";
                 cmd.Parameters.AddWithValue("@Concurso", Concurso);                
@@ -318,7 +319,8 @@ namespace Controle
         {
             var result = new Resultado();
             
-            using (var cmd = DbConnection().CreateCommand())
+            using (var conn = DbConnection())
+            using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandText = "SELECT _01,_02,_03,_04,_05,_06,_07,_08,_09,_10,_11,_12,_13,_14,_15 from TBResultado WHERE Concurso = @concurso";
 
@@ -347,7 +349,6 @@ namespace Controle
                     }
 
                 }
-                DbConnection().Close();
             }
             
             return result;
